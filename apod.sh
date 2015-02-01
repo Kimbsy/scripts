@@ -3,8 +3,6 @@
 # get the html content of the front page
 CONTENT=$(wget apod.nasa.gov/apod/astropix.html -q -O -)
 
-echo $CONTENT
-
 # find the src of the image (there should only be one)
 REGEX="SRC=\"image\/[0-9]+\/.+.jpg"
 
@@ -18,7 +16,7 @@ if [[ $CONTENT =~ $REGEX ]]; then
   echo $SOURCE
 
   # download the image with wget
-  wget -P ~/Pictures/NASA http://apod.nasa.gov/$SOURCE
+  wget -N -P ~/Pictures/NASA http://apod.nasa.gov/$SOURCE
     
 else
     echo "no match found"
