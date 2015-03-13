@@ -20,13 +20,15 @@ spoil() {
   # get new srcs
   grep -o 'src="[^"]*2015[^"]*"' HTML | grep -o '"[^"]*"' > newSRCs
 
-  # compare files and open new images in chrome
-  grep -Fxvf newSRCs oldSRCs | while read -r line ; do
-    echo "$line"
-    google-chrome "$line"
+  # check if different
+  DIFF=$(diff oldSRCs newSRCs) 
 
-    echo "gyrd300bhfd300gyrd300bhf300gyrd300bhfgyrd300bhfd300gyrd300bhf300gyrd300bhfgyrd300bhfd300gyrd300bhf300gyrd300bhf" > /dev/ttyUSB0
-  done
+  # open page and send alert to arduino
+  if [ "$DIFF" != "" ] 
+  then
+    google-chrome "http://www.magicspoiler.com/dragons-tarkir-spoiler/"
+    echo "gyrd100bhfd100gyrd100bhf100gyrd100bhfgyrd100bhfd100gyrd100bhf100gyrd100bhfgyrd100bhfd100gyrd100bhf100gyrd100bhf" > /dev/ttyUSB0
+  fi
 
   cd -
 }
